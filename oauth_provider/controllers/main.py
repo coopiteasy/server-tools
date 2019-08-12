@@ -62,7 +62,8 @@ class OAuth2ProviderController(http.Controller):
         return werkzeug.wrappers.BaseResponse(
             json.dumps(data), status=status, headers=headers)
 
-    @http.route('/oauth2/authorize', type='http', auth='user', methods=['GET'])
+    @http.route('/oauth2/authorize', type='http', auth='user', methods=['GET'],
+                website=True)
     def authorize(self, client_id=None, response_type=None, redirect_uri=None,
                   scope=None, state=None, *args, **kwargs):
         """ Check client's request, and display an authorization page to the user,
@@ -123,7 +124,8 @@ class OAuth2ProviderController(http.Controller):
             })
 
     @http.route(
-        '/oauth2/authorize', type='http', auth='user', methods=['POST'])
+        '/oauth2/authorize', type='http', auth='user', methods=['POST'],
+        website=True)
     def authorize_post(self, *args, **kwargs):
         """ Redirect to the requested URI during the authorization """
         client = http.request.env['oauth.provider.client'].search([
@@ -263,7 +265,8 @@ class OAuth2ProviderController(http.Controller):
         return self._json_response(data=data)
 
     @http.route(
-        '/oauth2/revoke_token', type='http', auth='none', methods=['POST'])
+        '/oauth2/revoke_token', type='http', auth='none', methods=['POST'],
+        website=True)
     def revoke_token(self, token=None, *args, **kwargs):
         """ Revoke the supplied token """
         ensure_db()
